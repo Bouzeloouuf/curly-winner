@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Wanderer - A Travel Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* --- Basic Setup & Typography --- */
+        :root {
+            --primary-color: #0077b6;
+            --secondary-color: #00b4d8;
+            --text-dark: #333;
+            --text-light: #666;
+            --background-light: #f8f9fa;
+            --border-color: #e0e0e0;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            font-weight: 700;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--secondary-color);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .site-header {
+            background-color: #fff;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .site-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        .site-header p {
+            margin: 5px 0 0;
+            color: var(--text-light);
+            font-family: 'Lora', serif;
+            font-style: italic;
+        }
+        
+        .main-nav {
+            background-color: #fff;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .main-nav li {
+            margin: 0 15px;
+        }
+
+        .main-nav a {
+            display: block;
+            padding: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* --- Main Content Layout --- */
+        .main-content-area {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .main-content-area {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+        
+        /* --- Blog Posts --- */
+        .post-card {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .post-card img {
+            border-radius: 8px 8px 0 0;
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .post-content {
+            padding: 20px 30px 30px;
+        }
+
+        .post-content h2 {
+            margin-top: 0;
+        }
+        
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .post-meta {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .read-more-btn, .ai-btn {
+            display: inline-block;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .read-more-btn {
+            background-color: var(--primary-color);
+        }
+
+        .read-more-btn:hover {
+            background-color: #005f8a;
+            color: #fff;
+        }
+        
+        .ai-btn {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            font-size: 0.9rem;
+        }
+        
+        .ai-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar .widget {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .sidebar .widget h3 {
+            margin-top: 0;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .sidebar .widget ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar .widget li {
+            margin-bottom: 10px;
+        }
+        
+        .about-me img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 15px;
+            object-fit: cover;
+        }
+        
+        .about-me p {
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        /* --- AI Trip Planner Widget --- */
+        .trip-planner-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .trip-planner-form input, .trip-planner-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        
+        #trip-planner-results {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: var(--background-light);
+            min-height: 50px;
+        }
+        
+        /* --- Modal for AI Summary --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+        }
+        
+        /* --- Loading Spinner --- */
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 5px solid var(--primary-color);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- Footer --- */
+        .site-footer {
+            background-color: var(--text-dark);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        
+        .site-footer p {
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container">
+            <h1>Global Wanderer</h1>
+            <p>Your ultimate guide to the world's hidden gems.</p>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Destinations</a></li>
+            <li><a href="#">Travel Tips</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container main-content-area">
+        <main class="posts-list">
+            
+            <!-- Blog Post 1 -->
+            <article class="post-card">
+                <img src="https://placehold.co/800x400/00b4d8/ffffff?text=Kyoto+Temples" alt="A serene temple in Kyoto">
+                <div class="post-content">
+                    <p class="post-meta">Published on July 3, 2025 by Alex</p>
+                    <h2 class="post-title">Whispers of Old Japan: A Journey Through Kyoto</h2>
+                    <p class="post-body">Kyoto, the former imperial capital of Japan, is a city that lives and breathes history. From the golden splendor of Kinkaku-ji to the endless torii gates of Fushimi Inari, every corner tells a story. Join us as we explore the serene temples, lush bamboo groves, and timeless traditions of this enchanting city.</p>
+                    <div class="post-actions">
+                         <a href="#" class="read-more-btn">Read More</a>
+                         <button class="ai-btn summarize-btn">✨ Summarize with AI</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Blog Post 2 -->
+            <article class="post-card">
+                <img src="https://placehold.co/800x400/0077b6/ffffff?text=Italian+Coast" alt="Colorful houses on the Italian coast">
+                <div class="post-content">
+                    <p class="post-meta">Published on June 28, 2025 by Alex</p>
+                    <h2 class="post-title">The Amalfi Coast: Sun, Sea, and Limoncello</h2>
+                    <p class="post-body">Picture this: cliffside villages painted in pastel hues, the scent of lemon groves in the air, and the sparkling blue of the Tyrrhenian Sea below. The Amalfi Coast is not just a destination; it's a dream. We'll share our tips for navigating the winding roads, finding the best beaches, and savoring every last drop of limoncello.</p>
+                     <div class="post-actions">
+                         <a href="#" class="read-more-btn">Read More</a>
+                         <button class="ai-btn summarize-btn">✨ Summarize with AI</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Blog Post 3 -->
+            <article class="post-card">
+                <img src="https://placehold.co/800x400/90e0ef/ffffff?text=Patagonia+Hike" alt="A hiker looking at mountains in Patagonia">
+                <div class="post-content">
+                    <p class="post-meta">Published on June 15, 2025 by Alex</p>
+                    <h2 class="post-title">Trekking in Patagonia: To the Edge of the World</h2>
+                    <p class="post-body">For the adventurous soul, Patagonia is the ultimate playground. With its jagged peaks, colossal glaciers, and windswept plains, it's a land of raw, untamed beauty. We're breaking down the famous 'W' Trek in Torres del Paine, from what to pack to where to stay. Get ready for the adventure of a lifetime.</p>
+                     <div class="post-actions">
+                         <a href="#" class="read-more-btn">Read More</a>
+                         <button class="ai-btn summarize-btn">✨ Summarize with AI</button>
+                    </div>
+                </article>
+
+        </main>
+
+        <aside class="sidebar">
+            
+            <!-- About Me Widget -->
+            <div class="widget about-me">
+                <h3>About The Author</h3>
+                <img src="https://placehold.co/150x150/0077b6/ffffff?text=Alex" alt="Portrait of the blog author, Alex">
+                <p>Hi, I'm Alex! A coffee-fueled adventurer with an incurable case of wanderlust. I created this blog to share my travel stories and help you plan your next unforgettable trip.</p>
+            </div>
+
+            <!-- AI Trip Planner Widget -->
+            <div class="widget">
+                <h3>✨ AI Trip Planner</h3>
+                <form id="trip-planner-form" class="trip-planner-form">
+                    <label for="destination">Destination</label>
+                    <input type="text" id="destination" name="destination" required placeholder="e.g., Paris, France">
+                    
+                    <label for="duration">Trip Duration (days)</label>
+                    <input type="number" id="duration" name="duration" min="1" required placeholder="e.g., 7">
+                    
+                    <label for="interests">Interests</label>
+                    <textarea id="interests" name="interests" rows="3" required placeholder="e.g., museums, food, hiking"></textarea>
+                    
+                    <button type="submit" class="ai-btn" style="width:100%; margin-top: 10px;">Generate Itinerary</button>
+                </form>
+                <div id="trip-planner-results">
+                    <p>Your personalized itinerary will appear here!</p>
+                </div>
+            </div>
+
+            <!-- Popular Posts Widget -->
+            <div class="widget">
+                <h3>Popular Posts</h3>
+                <ul>
+                    <li><a href="#">10 Must-Have Travel Gadgets</a></li>
+                    <li><a href="#">How to Travel on a Budget</a></li>
+                    <li><a href="#">The Ultimate Packing List</a></li>
+                    <li><a href="#">Solo Travel: Is It For You?</a></li>
+                </ul>
+            </div>
+            
+        </aside>
+    </div>
+
+    <!-- AI Summary Modal -->
+    <div id="summary-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>✨ AI-Powered Summary</h3>
+            <div id="summary-output">
+                <!-- Summary will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 Global Wanderer. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Gemini API Call Function ---
+            // This is a helper function to interact with the Gemini API
+            async function callGemini(prompt) {
+                // NOTE: Leaving the API key blank. The execution environment will
+                // automatically handle authentication.
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{
+                        role: "user",
+                        parts: [{ text: prompt }]
+                    }]
+                };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API call failed with status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        // Return the generated text
+                        return result.candidates[0].content.parts[0].text;
+                    } else {
+                        // Handle cases where the response structure is unexpected
+                        console.error("Unexpected API response structure:", result);
+                        return "Sorry, I couldn't generate a response. The API returned an unexpected result.";
+                    }
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                    return `Sorry, an error occurred. Please try again later. Details: ${error.message}`;
+                }
+            }
+
+            // --- AI Trip Planner Logic ---
+            const tripPlannerForm = document.getElementById('trip-planner-form');
+            const tripPlannerResults = document.getElementById('trip-planner-results');
+
+            tripPlannerForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const destination = document.getElementById('destination').value;
+                const duration = document.getElementById('duration').value;
+                const interests = document.getElementById('interests').value;
+
+                // Show loading indicator
+                tripPlannerResults.innerHTML = '<div class="loader"></div>';
+
+                // Construct the prompt for the Gemini API
+                const prompt = `Create a travel itinerary for a ${duration}-day trip to ${destination} for a traveler interested in ${interests}. Provide a day-by-day plan. For each day, suggest 2-3 activities. Format the entire response in simple HTML using <h4> for each day (e.g., "Day 1: Arrival and Exploration") and an unordered list (<ul> with <li>) for the activities of that day. Do not include any other HTML tags like <html>, <body>, or <head>.`;
+                
+                // Call the API and display the result
+                const itinerary = await callGemini(prompt);
+                tripPlannerResults.innerHTML = itinerary;
+            });
+
+            // --- Post Summarizer and Modal Logic ---
+            const modal = document.getElementById('summary-modal');
+            const modalOutput = document.getElementById('summary-output');
+            const closeBtn = document.querySelector('.close-btn');
+            const summarizeBtns = document.querySelectorAll('.summarize-btn');
+
+            summarizeBtns.forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    // Find the parent post card to get its content
+                    const postCard = e.target.closest('.post-card');
+                    const title = postCard.querySelector('.post-title').innerText;
+                    const body = postCard.querySelector('.post-body').innerText;
+                    const postText = `Title: ${title}\n\nContent: ${body}`;
+                    
+                    // Show the modal and the loading spinner
+                    modal.style.display = 'block';
+                    modalOutput.innerHTML = '<div class="loader"></div>';
+
+                    // Construct the prompt for the Gemini API
+                    const prompt = `Summarize the following blog post in three concise bullet points. Format the response as an HTML unordered list (<ul> with <li>). Do not include any other HTML tags.\n\n---\n\n${postText}`;
+                    
+                    // Call the API and display the summary
+                    const summary = await callGemini(prompt);
+                    modalOutput.innerHTML = summary;
+                });
+            });
+
+            // Function to close the modal
+            const closeModal = () => {
+                modal.style.display = 'none';
+            };
+
+            // Event listeners to close the modal
+            closeBtn.addEventListener('click', closeModal);
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
